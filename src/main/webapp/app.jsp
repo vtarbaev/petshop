@@ -10,8 +10,8 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="/css/ext-all.css"/>
-    <script type="text/javascript" src="/ext-base.js"></script>
-    <script type="text/javascript" src="/ext-all.js"></script>
+    <script type="text/javascript" src="/js/ext-base-debug.js"></script>
+    <script type="text/javascript" src="/js/ext-all-debug-w-comments.js"></script>
     <script type="text/javascript">
 
         var items = [];
@@ -32,19 +32,15 @@
         });
 
         var store = new Ext.data.Store({
-            autoDestroy: true,
-            url: "/api/products",
+            url: '/api/products',
             reader: new Ext.data.JsonReader({
+                totalProperty: 'total',
+                root: 'products',
+                idProperty: 'id',
                 fields: [
-                    { name: "id", type: "integer"},
-                    { name: "name", type: "string"},
-                    { name: "cost", type: "string"}
+                    'id', 'name', 'cost'
                 ]
             }),
-            writer: {
-                type: 'json'
-            },
-            restful: true,
             proxy: proxy
         });
 
@@ -55,18 +51,17 @@
         });
 
         grid.on('afteredit', function(e) {
-            console.log(e);
-            grid.store.commitChanges();
+            Ext.Ajax.request({
+                url: '/api/products',
+                jsonData: Ext.util.JSON.encode(e.record.data),
+                success: function() {
+                    grid.store.commitChanges();
+                }
+            });
+
         });
 
-        store.load({
-            callback: function() {
-                Ext.Msg.show({
-                    title: "Ура",
-                    buttons: Ext.Msg.OK
-                });
-            }
-        });
+        store.load({});
 
 
         Ext.onReady(function () {

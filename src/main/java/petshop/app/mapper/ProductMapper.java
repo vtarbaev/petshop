@@ -1,17 +1,19 @@
-package test.web.mapper;
+package petshop.app.mapper;
 
-import org.apache.ibatis.annotations.*;
-import test.web.model.Product;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import petshop.app.model.Product;
 
 import java.util.List;
 
-@Mapper
 public interface ProductMapper {
 
     @Select("SELECT * FROM products")
     List<Product> findAll();
 
-    @Insert("INSERT INTO products(name, cost) VALUES(#{name}, #{cost})")
+    @Insert("INSERT INTO products(name,cost) VALUES(#{name},#{cost})")
     @Options(useGeneratedKeys = true)
     void create(Product product);
 

@@ -1,4 +1,4 @@
-package test.web.model;
+package petshop.app.model;
 
 import java.io.Serializable;
 
@@ -6,7 +6,17 @@ public class Product implements Serializable {
 
     private int id;
     private String name;
-    private Float cost;
+    private float cost;
+
+    public Product(String name, float cost) {
+        this.id = id;
+        this.name = name;
+        this.cost = cost;
+    }
+
+    public Product() {
+
+    }
 
     public int getId() {
         return id;
@@ -24,11 +34,11 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public Float getCost() {
+    public float getCost() {
         return cost;
     }
 
-    public void setCost(Float cost) {
+    public void setCost(float cost) {
         this.cost = cost;
     }
 }
